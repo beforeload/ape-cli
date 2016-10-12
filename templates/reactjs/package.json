@@ -1,6 +1,6 @@
 {
   "name": "ape-web-demo",
-  "title": "猿题库",
+  "title": "ape-web-demo",
   "version": "0.0.6",
   "description": "demo for web component",
   "main": "src/app.js",

@@ -14,19 +14,19 @@ new WebpackDevServer(webpack(config), {
   quiet: true,
   stats: {
       colors: true
-  },
-  proxy: {
-    '**/api/**': {
-      target: 'http://ytk1.yuanfudao.ws',
-      secure: false,
-      changeOrigin: true
-    }
   }
+  // proxy: {
+  //   '**/api/**': {
+  //     target: 'http://api.domain',
+  //     secure: false,
+  //     changeOrigin: true
+  //   }
+  // }
 })
 .listen(config.port, 'localhost', function(err) {
   if (err) {
     console.log(err);
   }
-  console.log('Listening at local.yuanfudao.ws:' + config.port);
-  open('http://local.yuanfudao.ws:' + config.port + '/');
+  console.log('Listening at localhost:' + config.port);
+  open('http://localhost:' + config.port + '/');
 });

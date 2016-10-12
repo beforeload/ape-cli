@@ -1,41 +1,23 @@
 #!/usr/bin/env node
-const program = require('commander')
-const path = require('path')
-const multiline = require('multiline')
-const colors = require('colors')
-const pkg = require('../package.json')
-const _ = require('lodash')
-const exec = require('child_process').exec
-const os = require('os')
-const prompt = require('prompt')
+var program = require('commander')
+var path = require('path')
+var multiline = require('multiline')
+var colors = require('colors')
+var pkg = require('../package.json')
+var prompt = require('prompt')
 
-const Init = require('../lib/init')
-const Build = require('../lib/build')
-const Publish = require('../lib/publish')
-// 因为需要在执行 action 之前先检查版本，而program.parse之后commands会立即开始执行了，所以需要等待一下
-var start = function() { // default action when no sub command provided
-  program.outputHelp()
-}
-
-var WAIT = function(f) {
-  return function() {
-    var args = arguments
-    var _this = this
-    start = function() {
-      f.apply(_this, args)
-    }
-  }
-}
+var Init = require('../dist/init')
+var Build = require('../dist/build')
 
 program
   .version(pkg.version)
-  .usage(multiline(() => {/*
+  .usage(multiline(function() {/*
   [command] [options]
 */}))
 
 program
   .command('init [type]')
-  .usage(multiline(() => {/*
+  .usage(multiline(function() {/*
 [type]
 
   examples:
@@ -48,7 +30,7 @@ program
 
   */}))
   .description('初始化项目目录')
-  .action((type, prog) => {
+  .action(function(type, prog) {
     console.log(colors.cyan(`初始化${type||'reactjs'}项目...`))
     Init.exec(type)
   })
@@ -56,14 +38,14 @@ program
 program
   .command('install')
   .description('安装项目依赖')
-  .action((prog) => {
+  .action(function(prog) {
     Build.install()
   })
 
 program
   .command('server')
   .description('开启本地服务')
-  .action((prog) => {
+  .action(function(prog) {
     Build.server()
   })
 program
@@ -71,24 +53,24 @@ program
   .description('执行项目构建')
   .option('--dev', '构建测试版本(default)')
   .option('--release', '构建发布版本')
-  .action((prog) => {
+  .action(function(prog) {
     Build.build()
   })
 
-program
-  .command('publish')
-  .description('执行项目发布')
-  .option('--test', '发布测试环境(default)')
-  .option('--online', '发布线上环境')
-  .action((prog) => {
-    if(prog.online) {
-      Publish.online()
-    } else {
-      Publish.test()
-    }
-  })
+// program
+//   .command('publish')
+//   .description('执行项目发布')
+//   .option('--test', '发布测试环境(default)')
+//   .option('--online', '发布线上环境')
+//   .action(function(prog) {
+//     if(prog.online) {
+//       Build.online()
+//     } else {
+//       Build.test()
+//     }
+//   })
 
-program.on('--help', () => {
+program.on('--help', function() {
  console.log('  Examples:')
  console.log('')
  console.log('    $ ape init -h')
@@ -96,7 +78,7 @@ program.on('--help', () => {
  console.log('    $ ape server')
  console.log('    $ ape build')
  console.log('')
- console.log('  FAQ: http://wiki.zhenguanyu.com/Ytk/Frontend/ApeCli')
+ console.log('  FAQ: https://github.com/beforeload/ape-cli/issues')
  console.log('')
 })
 
