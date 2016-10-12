@@ -1,0 +1,100 @@
+.muicell {
+    display: flex;
+    position: relative;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+    overflow-y: auto;
+    overflow-scrolling: touch;
+
+    // flex
+    flex: 1 1 0;
+
+    // flex-flow
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    // order
+    order: 0;
+    backface-visibility: hidden;
+
+    &.vertical {
+    	flex-direction: column;
+    	&.reverse {
+            flex-direction: column-reverse;
+        }
+    }
+    &.horizental {
+    	flex-direction: row;
+    	&.reverse {
+            flex-direction: row-reverse;
+        }
+    }
+
+    // justify-content
+    &.justify-content-start {
+        justify-content: flex-start;
+    }
+    &.justify-content-end {
+        justify-content: flex-end;
+    }
+    &.justify-content-center {
+        justify-content: center;
+    }
+    &.justify-content-between {
+        justify-content: space-between;
+    }
+    &.justify-content-around {
+        justify-content: space-around;
+    }
+
+    // align-items
+    &.align-items-start {
+        align-items: flex-start;
+    }
+    &.align-items-end {
+        align-items: flex-end;
+    }
+    &.align-items-center {
+        align-items: center;
+    }
+    &.align-items-stretch {
+    	align-items: stretch;
+    }
+
+    &.align-self-start {
+        align-self: flex-start;
+    }
+    &.align-self-end {
+        align-self: flex-end;
+    }
+    &.align-self-center {
+        align-self: center;
+    }
+    &.align-self-stretch {
+    	align-items: stretch;
+    }
+
+    // 子元素居中
+    &.center{
+        justify-content: center;
+        align-items: center;
+    }
+
+    &.shrink {
+        flex: 0 0 auto;
+    }
+
+    // 低端 android 下面会出现
+    &.inline {
+    	width: 0;
+    }
+
+    &.content {
+    	display: block;
+    }
+
+    &, *, *:after, *:before {
+        box-sizing: border-box;
+    }
+}

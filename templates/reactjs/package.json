@@ -1,0 +1,51 @@
+{
+  "name": "ape-web-demo",
+  "title": "猿题库",
+  "version": "0.0.6",
+  "description": "demo for web component",
+  "main": "src/app.js",
+  "scripts": {
+    "clean": "rimraf dist/*",
+    "start": "node server.js --env=dev",
+    "server": "node server.js --env=dev",
+    "build": "set BABEL_ENV=production && webpack --config webpack.config.prod.js --progress --colors",
+    "lint": "eslint ./src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "demo",
+    "webpack"
+  ],
+  "license": "BSD",
+  "devDependencies": {
+    "autoprefixer": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-loader": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-react": "*",
+    "eslint": "*",
+    "eslint-loader": "*",
+    "eslint-plugin-react": "*",
+    "css-loader": "*",
+    "file-loader": "*",
+    "less": "*",
+    "less-loader": "*",
+    "open": "*",
+    "postcss-loader": "*",
+    "precss": "*",
+    "react-hot-loader": "*",
+    "style-loader": "*",
+    "url-loader": "*",
+    "html-webpack-plugin": "*",
+    "webpack": "*",
+    "webpack-dev-server": "*"
+  },
+  "dependencies": {
+    "react": "*",
+    "react-dom": "*"
+  }
+}

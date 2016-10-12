@@ -1,0 +1,103 @@
+#!/usr/bin/env node
+const program = require('commander')
+const path = require('path')
+const multiline = require('multiline')
+const colors = require('colors')
+const pkg = require('../package.json')
+const _ = require('lodash')
+const exec = require('child_process').exec
+const os = require('os')
+const prompt = require('prompt')
+
+const Init = require('../lib/init')
+const Build = require('../lib/build')
+const Publish = require('../lib/publish')
+// 因为需要在执行 action 之前先检查版本，而program.parse之后commands会立即开始执行了，所以需要等待一下
+var start = function() { // default action when no sub command provided
+  program.outputHelp()
+}
+
+var WAIT = function(f) {
+  return function() {
+    var args = arguments
+    var _this = this
+    start = function() {
+      f.apply(_this, args)
+    }
+  }
+}
+
+program
+  .version(pkg.version)
+  .usage(multiline(() => {/*
+  [command] [options]
+*/}))
+
+program
+  .command('init [type]')
+  .usage(multiline(() => {/*
+[type]
+
+  examples:
+
+  $ ape init
+  $ ape init react   初始化React项目
+
+  templates:
+    see in ape-cli project
+
+  */}))
+  .description('初始化项目目录')
+  .action((type, prog) => {
+    console.log(colors.cyan(`初始化${type||'reactjs'}项目...`))
+    Init.exec(type)
+  })
+
+program
+  .command('install')
+  .description('安装项目依赖')
+  .action((prog) => {
+    Build.install()
+  })
+
+program
+  .command('server')
+  .description('开启本地服务')
+  .action((prog) => {
+    Build.server()
+  })
+program
+  .command('build')
+  .description('执行项目构建')
+  .option('--dev', '构建测试版本(default)')
+  .option('--release', '构建发布版本')
+  .action((prog) => {
+    Build.build()
+  })
+
+program
+  .command('publish')
+  .description('执行项目发布')
+  .option('--test', '发布测试环境(default)')
+  .option('--online', '发布线上环境')
+  .action((prog) => {
+    if(prog.online) {
+      Publish.online()
+    } else {
+      Publish.test()
+    }
+  })
+
+program.on('--help', () => {
+ console.log('  Examples:')
+ console.log('')
+ console.log('    $ ape init -h')
+ console.log('    $ ape install')
+ console.log('    $ ape server')
+ console.log('    $ ape build')
+ console.log('')
+ console.log('  FAQ: http://wiki.zhenguanyu.com/Ytk/Frontend/ApeCli')
+ console.log('')
+})
+
+program.parse(process.argv)
