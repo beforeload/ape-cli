@@ -1,5 +1,5 @@
 A Project Generator
-========================
+=======
 
 ### Install
 
